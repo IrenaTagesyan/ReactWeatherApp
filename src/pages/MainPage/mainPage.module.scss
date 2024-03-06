@@ -1,0 +1,23 @@
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: var(--main-border-radius);
+  box-shadow: 0 0 24px 7px rgba(0, 0, 0, 0.2);
+  background: var(--bg-color--card);
+  color: var(--main-text-color);
+  max-width: 675px;
+  min-height: 300px;
+  & .wrapper {
+    width: 70%;
+  }
+}
+
+.errorMessageWrapper {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
