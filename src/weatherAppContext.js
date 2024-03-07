@@ -1,18 +1,19 @@
+import { createContext } from "react";
 import { useState } from "react";
 
-export const useWeather = () => {
+export const WeatherAppContext = createContext();
+
+export const WeatherAppContextProvider = ({ children }) => {
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchFormShows, setIsSearchFormShows] = useState(true);
   const [forecastDaysData, setForecastDaysData] = useState(null);
   const [currentDayData, setCurrentDayData] = useState(null);
 
-  const apiKey = "53973855c5b110301301eb500723e3e9";
-
   const currentDayWeatherRequest = async (city) => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
       );
       const data = await response.json();
       return data;
@@ -24,7 +25,7 @@ export const useWeather = () => {
   const forecastDaysWeatherRequest = async (city) => {
     try {
       const response = await fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`
+        `http://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.REACT_APP_API_KEY}&units=metric`
       );
       const data = await response.json();
       return data;
@@ -33,7 +34,7 @@ export const useWeather = () => {
     }
   };
 
-  return {
+  const data = {
     isErrorMessage,
     isLoading,
     forecastDaysData,
@@ -47,4 +48,10 @@ export const useWeather = () => {
     currentDayWeatherRequest,
     forecastDaysWeatherRequest,
   };
+
+  return (
+    <WeatherAppContext.Provider value={data}>
+      {children}
+    </WeatherAppContext.Provider>
+  );
 };

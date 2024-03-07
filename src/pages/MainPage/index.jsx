@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { SearchForm } from "../../components/SearchForm";
 import styles from "./mainPage.module.scss";
 import { Header } from "../../components/Header";
 import { Loader } from "../../components/Loader";
 import { Error } from "../../components/Error";
-import { useWeather } from "../../hooks/useWeather";
 import { ForecastDays } from "../../components/ForecastDays";
 import { CurrentDayCard } from "../../components/CurrentDay/CurrentDayCard";
 import { CurrentDayDescription } from "../../components/CurrentDay/CurrentDayDescription";
 import { Button } from "../../components/Button";
+import { WeatherAppContext } from "../../weatherAppContext";
 
 export const MainPage = () => {
   const {
@@ -24,7 +24,7 @@ export const MainPage = () => {
     currentDayData,
     setCurrentDayData,
     setIsErrorMessage,
-  } = useWeather();
+  } = useContext(WeatherAppContext);
 
   const searchWeather = async (inputValue) => {
     setIsLoading(true);
