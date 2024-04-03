@@ -1,5 +1,5 @@
+import { WeatherAppContextProvider } from "./Context/weatherAppContext";
 import { MainPage } from "./pages/MainPage";
-import { WeatherAppContextProvider } from "./weatherAppContext";
 
 export const App = () => {
   return (

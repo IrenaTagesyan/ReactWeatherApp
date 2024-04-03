@@ -14,7 +14,7 @@ export const SearchForm = ({ searchWeather }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form >
       <input
         aria-label="location"
         type="text"

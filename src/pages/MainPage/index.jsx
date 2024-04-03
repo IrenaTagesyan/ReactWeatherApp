@@ -8,49 +8,45 @@ import { ForecastDays } from "../../components/ForecastDays";
 import { CurrentDayCard } from "../../components/CurrentDay/CurrentDayCard";
 import { CurrentDayDescription } from "../../components/CurrentDay/CurrentDayDescription";
 import { Button } from "../../components/Button";
-import { WeatherAppContext } from "../../weatherAppContext";
+import { WeatherAppContext } from "../../Context/weatherAppContext";
+import {
+  currentDayWeatherRequest,
+  forecastDaysWeatherRequest,
+} from "../../api/apiRequests";
 
 export const MainPage = () => {
   const {
-    isErrorMessage,
-    isLoading,
-    forecastDaysData,
-    forecastDaysWeatherRequest,
-    currentDayWeatherRequest,
-    setIsLoading,
-    isSearchFormShows,
-    setIsSearchFormShows,
-    setForecastDaysData,
-    currentDayData,
-    setCurrentDayData,
-    setIsErrorMessage,
+    state,
+    showLoading,
+    showSearchForm,
+    showErrorMessage,
+    settingCurrentDayData,
+    settingForecastDaysData,
   } = useContext(WeatherAppContext);
 
   const searchWeather = async (inputValue) => {
-    setIsLoading(true);
-    setIsSearchFormShows(false);
-
+    showLoading(true);
+    showSearchForm(false);
     const currentDayWeatherData = await currentDayWeatherRequest(inputValue);
     const forecastDaysWeatherData = await forecastDaysWeatherRequest(
       inputValue
     );
     if (forecastDaysWeatherData.message || currentDayWeatherData.message) {
-      setIsErrorMessage(forecastDaysWeatherData.message);
-      setIsSearchFormShows(false);
-      setIsLoading(false);
+      showErrorMessage(forecastDaysWeatherData.message);
+      showSearchForm(false);
+      showLoading(false);
       return;
     }
-
-    setCurrentDayData(currentDayWeatherData);
-    setForecastDaysData(forecastDaysWeatherData);
-    setIsLoading(false);
+    settingCurrentDayData(currentDayWeatherData);
+    settingForecastDaysData(forecastDaysWeatherData);
+    showLoading(false);
   };
 
   const handleButtonOnClick = () => {
-    setIsSearchFormShows(true);
-    setCurrentDayData(null);
-    setForecastDaysData(null);
-    setIsErrorMessage(false);
+    showSearchForm(true);
+    settingCurrentDayData(null);
+    settingForecastDaysData(null);
+    showErrorMessage(false);
   };
 
   return (
@@ -58,31 +54,35 @@ export const MainPage = () => {
       <Header />
       <div className={styles.box}>
         {/* Form  */}
-        {isSearchFormShows && <SearchForm searchWeather={searchWeather} />}
+        {state.isSearchFormShows && (
+          <SearchForm searchWeather={searchWeather} />
+        )}
 
         {/* Error */}
-        {isErrorMessage && (
+        {state.isErrorMessage && (
           <div className={styles.errorMessageWrapper}>
-            <Error errorMessage={isErrorMessage} />
+            <Error errorMessage={state.isErrorMessage} />
             <Button btnText="Go to search" onClick={handleButtonOnClick} />
           </div>
         )}
 
         {/* Loader */}
-        {isLoading && <Loader />}
+        {state.isLoading && <Loader />}
 
         {/* CurrentDay */}
-        {currentDayData && <CurrentDayCard currentDayData={currentDayData} />}
+        {state.currentDayData && (
+          <CurrentDayCard currentDayData={state.currentDayData} />
+        )}
 
         {/* ForecastDays */}
-        {forecastDaysData && (
+        {state.forecastDaysData && (
           <div className={styles.wrapper}>
-            <CurrentDayDescription currentDayData={currentDayData} />
-            <ForecastDays forecastDaysData={forecastDaysData} />
+            <CurrentDayDescription currentDayData={state.currentDayData} />
+            <ForecastDays forecastDaysData={state.forecastDaysData} />
           </div>
         )}
       </div>
-      {currentDayData && (
+      {state.currentDayData && (
         <Button btnText="Go to search" onClick={handleButtonOnClick} />
       )}
     </>
