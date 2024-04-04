@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import styles from "./searchForm.module.scss";
 import { Button } from "../Button";
+import { useDebouncedValue } from "../../hooks/debounced";
 
 export const SearchForm = ({ searchWeather }) => {
   const [location, setLocation] = useState("");
+  const debouncedSearch = useDebouncedValue(location, 200);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    if (!location || location === "") {
+    if (!debouncedSearch) {
       return;
     }
-    searchWeather(location);
+    searchWeather(debouncedSearch);
+  };
+
+  const handleInputChange = (event) => {
+    setLocation(event.target.value);
   };
 
   return (
-    <form >
+    <form>
       <input
         aria-label="location"
         type="text"
@@ -22,12 +28,9 @@ export const SearchForm = ({ searchWeather }) => {
         placeholder="Search for location"
         required
         value={location}
-        onChange={(e) => setLocation(e.target.value)}
+        onChange={handleInputChange}
       />
 
-      {/* <button type="submit" className={styles.button} onClick={onSubmit}>
-        SEARCH
-      </button> */}
       <Button btnText="SEARCH" onClick={onSubmit} />
     </form>
   );
