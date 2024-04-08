@@ -1,7 +1,7 @@
 export const initialState = {
-    isErrorMessage: false,
-    isLoading: false,
-    isSearchFormShows: true,
-    forecastDaysData: null,
-    currentDayData: null,
-  };
+  isErrorMessage: false,
+  isLoading: false,
+  isSearchFormShows: true,
+  forecastDaysData: null,
+  currentDayData: null,
+};

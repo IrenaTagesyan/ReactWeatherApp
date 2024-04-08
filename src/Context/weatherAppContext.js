@@ -1,11 +1,11 @@
-import { createContext, useReducer } from "react";
-import { weatherAppReducer } from "./weatherAppReducer";
-import { initialState } from "./initialState";
-import { actions } from "./actions";
+import { createContext, useReducer } from 'react';
+import { weatherAppReducer } from './weatherAppReducer';
+import { initialState } from './initialState';
+import { actions } from './actions';
 
 export const WeatherAppContext = createContext();
 
-export const WeatherAppContextProvider = ({ children }) => {
+export function WeatherAppContextProvider({ children }) {
   const [state, dispatch] = useReducer(weatherAppReducer, initialState);
 
   const showLoading = (showOrHide) => {
@@ -42,4 +42,4 @@ export const WeatherAppContextProvider = ({ children }) => {
       {children}
     </WeatherAppContext.Provider>
   );
-};
+}

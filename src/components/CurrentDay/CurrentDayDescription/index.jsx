@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./currentDayDescription.module.css";
+import styles from "./currentDayDescription.module.scss";
 
 export const CurrentDayDescription = ({ currentDayData }) => {
   const {

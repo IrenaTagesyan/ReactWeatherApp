@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
+
 import { SearchForm } from "../../components/SearchForm";
+
 import styles from "./mainPage.module.scss";
 import { Header } from "../../components/Header";
 import { Loader } from "../../components/Loader";
